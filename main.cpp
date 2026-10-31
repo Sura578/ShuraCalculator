@@ -4,17 +4,28 @@
 #include <string>
 #include <limits>
 using namespace std;
-void uiinvalidoption()
+class ui
+{
+    public:
+        void uiinvalidoption();
+        void showtotal(double result);
+        void uimenu();
+        void uigoodbye();
+        void unabledivition();
+        double uigetnumber();
+        int uigetpowery();
+        int uigetpowerx();
+};
+void ui::uiinvalidoption()
 {
     cout<<"Invalid digit, try again"<<endl;
 }
-
-void showtotal(double result)
+void ui::showtotal(double result)
 {
     //*just to debuggin*/cout<<numbera<<numberb;
     cout<<"THE RESULT OF THE OPERATION IS :"<<result;
 }
-void uimenu()
+void ui::uimenu()
 {
     cout<<"\n====== CALCULATOR ======\n";
     cout<<"1. ADD \n";
@@ -24,15 +35,15 @@ void uimenu()
     cout<<"5. TO THE X POWER \n";
     cout<<"0. CLOSE \n";
 }
-void uigoodbye()
+void ui::uigoodbye()
 {
     cout<<"Goodbye"<<endl;
 }
-void unabledivition()
+void ui::unabledivition()
 {
     cout<<"It iss not possible to divide by 0"<<endl<<"Try again"<<endl;
 }
-double uigetnumber()
+double ui::uigetnumber()
 {
     double number;
     cout<<"TYPE NUMBER"<<endl;
@@ -44,28 +55,28 @@ double uigetnumber()
     }
     return number;
 }
-int uigetpowery()
+int ui::uigetpowery()
 {
     int numbery;
     cout<<"Type the number Y to elevate "<<endl;
     while(!(cin>>numbery)||numbery<0)
     {
-        uiinvalidoption();
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        uiinvalidoption();
     }
     return numbery;
 }
-int uigetpowerx()
+int ui::uigetpowerx()
 {
     int numberx;
     cout<<"X ^ Y"<<endl;
     cout<<"Type the number X to elevate "<<endl;
     while(!(cin>>numberx))
     {
-        uiinvalidoption();
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        uiinvalidoption();
     }
     return numberx;
 }
@@ -85,7 +96,7 @@ void logicdivide(double numbera, double numberb, double* result)
 {
     *result=numbera/numberb;
 }
-int logicgetoption()
+int logicgetoption(ui& interface)
 {
     int option;
     string input;
@@ -99,7 +110,7 @@ int logicgetoption()
         }
         else
         {
-            uiinvalidoption();
+            interface.uiinvalidoption();
         }
     }
 }
@@ -120,68 +131,69 @@ bool logiccheckdivition(double numberb)
 }
 void runmenu()
 {
+    ui interface;
     int option;
     do
     {
-        uimenu();
-        option=logicgetoption();
+        interface.uimenu();
+        option=logicgetoption(interface);
         switch(option)
         {
             case 1:
             {
                 double numbera,numberb,result;
-                numbera=uigetnumber();
-                numberb=uigetnumber();
+                numbera=interface.uigetnumber();
+                numberb=interface.uigetnumber();
                 logicadd(numbera,numberb,&result);
-                showtotal(result);
+                interface.showtotal(result);
                 break;
             }
             case 2:
             {
                 double numbera,numberb,result;
-                numbera=uigetnumber();
-                numberb=uigetnumber();
+                numbera=interface.uigetnumber();
+                numberb=interface.uigetnumber();
                 logicsubtract(numbera,numberb,&result);
-                showtotal(result);
+                interface.showtotal(result);
                 break;
             }
             case 3:
             {
                 double numbera,numberb,result;
-                numbera=uigetnumber();
-                numberb=uigetnumber();
+                numbera=interface.uigetnumber();
+                numberb=interface.uigetnumber();
                 logicsmultiplie(numbera,numberb,&result);
-                showtotal(result);
+                interface.showtotal(result);
                break;
             }
             case 4:
             {
                 double numbera,numberb,result;
-                numbera=uigetnumber();
-                numberb=uigetnumber();
+                numbera=interface.uigetnumber();
+                numberb=interface.uigetnumber();
                 if(logiccheckdivition(numberb)==false)
                 {
-                    unabledivition();
+                    interface.unabledivition();
                     break;
                 }
                 logicdivide(numbera,numberb,&result);
-                showtotal(result);
+                interface.showtotal(result);
                break;
             }
             case 5:
             {
                 int numberx,numbery,result;
-                numberx=uigetpowerx();
-                numbery=uigetpowery();
+                numberx=interface.uigetpowerx();
+                numbery=interface.uigetpowery();
                 logicgetpower(numberx,numbery,&result);
-                showtotal(result);
+                interface.showtotal(result);
                 break;
             }
             case 0:
-                uigoodbye();
+                interface.uigoodbye();
                 break;
             default:
-                uiinvalidoption();
+                interface.uiinvalidoption();
         }
     }while(option!=0);
 }
