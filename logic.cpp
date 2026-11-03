@@ -1,4 +1,5 @@
 #include "logic.h"
+#include <cmath>
 void logic::logicadd(double numbera, double numberb, double* result)
 {
     *result=numbera+numberb;
@@ -15,24 +16,6 @@ void logic::logicdivide(double numbera, double numberb, double* result)
 {
     *result=numbera/numberb;
 }
-int logic::logicgetoption(ui& interface)
-{
-    int option;
-    string input;
-    while (true)
-    {
-        cin>>input;
-        stringstream ss(input);
-        if(ss>>option && ss.eof())
-        {
-            return option;
-        }
-        else
-        {
-            interface.uiinvalidoption();
-        }
-    }
-}
 void logic::logicgetpower(int numberx,int numbery, double* result)
 {
     *result=1;
@@ -43,78 +26,35 @@ void logic::logicgetpower(int numberx,int numbery, double* result)
 }
 bool logic::logiccheckdivision(double numberb)
 {
-    if(numberb==0)
-    return false;
-    else
-    return true;
+    return numberb!=0;
 }
-void runmenu()
+bool logic::logiccalculate(int option, double numbera,double numberb, double* result)
 {
-    logic math;
-    ui interface;
-    int option;
-    do
+    switch(option)
     {
-        interface.uimenu();
-        option=math.logicgetoption(interface);
-        switch(option)
-        {
-            case 1:
+        case 1:
+            logicadd(numbera,numberb,result);
+            return true;
+        case 2:
+            logicsubtract(numbera,numberb,result);
+            return true;
+        case 3:
+            logicsmultiply(numbera,numberb,result);
+            return true;
+        case 4:
+            if(logiccheckdivision(numberb))
             {
-                double numbera,numberb,result;
-                numbera=interface.uigetnumber();
-                numberb=interface.uigetnumber();
-                math.logicadd(numbera,numberb,&result);
-                interface.showtotal(result);
-                break;
+                logicdivide(numbera,numberb,result);
+                return true;
             }
-            case 2:
+            else
             {
-                double numbera,numberb,result;
-                numbera=interface.uigetnumber();
-                numberb=interface.uigetnumber();
-                math.logicsubtract(numbera,numberb,&result);
-                interface.showtotal(result);
-                break;
+                return false;
             }
-            case 3:
-            {
-                double numbera,numberb,result;
-                numbera=interface.uigetnumber();
-                numberb=interface.uigetnumber();
-                math.logicsmultiply(numbera,numberb,&result);
-                interface.showtotal(result);
-               break;
-            }
-            case 4:
-            {
-                double numbera,numberb,result;
-                numbera=interface.uigetnumber();
-                numberb=interface.uigetnumber();
-                if(math.logiccheckdivision(numberb)==false)
-                {
-                    interface.unabledivision();
-                    break;
-                }
-                math.logicdivide(numbera,numberb,&result);
-                interface.showtotal(result);
-               break;
-            }
-            case 5:
-            {
-                int numberx,numbery;
-                double result;
-                numberx=interface.uigetpowerx();
-                numbery=interface.uigetpowery();
-                math.logicgetpower(numberx,numbery,&result);
-                interface.showtotal(result);
-                break;
-            }
-            case 0:
-                interface.uigoodbye();
-                break;
-            default:
-                interface.uiinvalidoption();
-        }
-    }while(option!=0);
+        case 5:
+            logicgetpower(static_cast<int>(numbera),static_cast<int>(numberb),result);
+            return true;
+        default:
+            return false;
+    }
 }

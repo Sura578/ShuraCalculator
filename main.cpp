@@ -1,8 +1,14 @@
 //A simple calculator program. made by ShuraKawai 23OCT26
-using namespace std;
-void runmenu();
-int main()
+#include <wx/wx.h>
+#include "ui.h"
+class ShurasCalculator : public wxApp
 {
-    runmenu();
-    return 0;
-}
+public:
+    bool OnInit() override
+    {
+        ui* window = new ui();
+        window->Show(true);
+        return true;
+    }
+};
+wxIMPLEMENT_APP(ShurasCalculator);

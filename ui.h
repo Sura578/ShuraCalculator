@@ -1,19 +1,24 @@
 #ifndef UI_H
 #define UI_H
-#include <iostream>
-#include <string>
-#include <limits>
-using namespace std;
-class ui
+#include <wx/wx.h>
+#include "logic.h"
+class ui : public wxFrame
 {
-    public:
-        void uiinvalidoption();
-        void showtotal(double result);
-        void uimenu();
-        void uigoodbye();
-        void unabledivision();
-        double uigetnumber();
-        int uigetpowery();
-        int uigetpowerx();  
+public:
+    ui();
+    void uiinvalidoption();
+    void showtotal(double result);
+    void uigoodbye();
+    void unabledivision();
+
+private:
+    logic math;
+    wxTextCtrl* numbera;
+    wxTextCtrl* numberb;
+    wxChoice* operation;
+    wxStaticText* result;
+    void uimenu();
+    double uigetnumber(wxTextCtrl* input);
+    void calculate(wxCommandEvent& event);
 };
 #endif
